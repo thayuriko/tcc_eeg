@@ -6,7 +6,7 @@ indNos = {'001' '002' '003' '004' '005' '006' '007' '008' '009' '010' '011' '012
 % Declaração das variáveis
 startBlink = zeros(length(indNos));
 endBlink = zeros(length(indNos));
-result = zeros(length(indNos),5); %[indNo, numberBlinks, minPeak,, maxPeak, threshold]
+result = zeros(length(indNos),5); %[indNo, numberBlinks, minPeak, maxPeak, threshold]
 
 for i=1:length(indNos)
     indNo = indNos{i};
@@ -15,12 +15,9 @@ for i=1:length(indNos)
     
     result(indNoInt,1) = indNoInt;
     result(indNoInt,2) = find(endBlink(indNoInt,:),1,'last');
-    result(indNoInt,3) = min([baseOpen_delta(3,:) baseOpen_delta(6,:)]);
-    result(indNoInt,4) = max([baseOpen_delta(3,:) baseOpen_delta(6,:)]);
-    result(indNoInt,5) = avgOpen;
     fprintf('Indivíduo %s piscou %s vezes\n', num2str(indNoInt), num2str(result(indNoInt,2)));
 end
 
 clear i j axes1 blink S F 
 
-save 'tcc_result.mat' 'result'
+%save 'tcc_result.mat' 'result'

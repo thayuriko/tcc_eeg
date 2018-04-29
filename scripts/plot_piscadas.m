@@ -11,8 +11,8 @@ plot(T,avgPRight,'Parent',axes1);
 plot(avgOpen*ones(1,60),'Parent',axes1); box(axes1,'on');
 axis([1 59 min([avgPRight avgPLeft]) max([avgPRight avgPLeft])]);
 grid(axes1,'on');
-title('Densidade Espectral Média');
-xlabel('Tempo (s)'); ylabel('Amplitude (dB)');
+title('Média da Densidade Espectral de Potência');
+xlabel('Tempo (s)'); ylabel('Amplitude (dB/Hz)');
 legend('Hemisfério Esquerdo', 'Hemisfério Direito', 'Limiar de Decisão');
 
 axes1 = axes('Position',[0.13 0.38637567240415 0.7325 0.209811278807309]);
@@ -29,5 +29,4 @@ legend('Hemisfério Esquerdo', 'Hemisfério Direito');
 subplot(3,1,1)
 spectrogram(baseOpen_delta(3,:),120,60,1024,160,'yaxis');
 ylim([0 10]); xlabel('Tempo (s)'); ylabel('Frequência (Hz)');
-%spectrogram(baseOpen_delta(3,:),120,60,160,160,'yaxis'); %sinal, 2*fmax, fmax, Nfft, fs
 title(['Ind.' indNo ': Olhos Abertos - Banda Delta (0,5-4Hz)']);

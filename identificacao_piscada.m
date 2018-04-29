@@ -43,6 +43,10 @@ else
     avgOpen = (max(avgPLeft) - mean(avgPLeft))/8;
 end
 
+result(indNoInt,3) = min([baseOpen_delta(3,:) baseOpen_delta(6,:)]);
+result(indNoInt,4) = max([baseOpen_delta(3,:) baseOpen_delta(6,:)]);
+result(indNoInt,5) = avgOpen;
+
 run plot_piscadas.m
 
 %% Identificação
