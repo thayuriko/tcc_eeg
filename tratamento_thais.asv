@@ -1,27 +1,28 @@
-[strBase, baseline] = readEDF(['databases/S' indNo 'R' stateNo '.edf']); %state (02: closed, 01: open)
+[strBaseClsd, baseOpen] = readEDF(['databases/S' indNo 'R0' state '.edf']); %state (2: closed, 1: open)
 
-baseline = cell2mat(baseline)';
-labels = strrep(strBase.labels,'.','');
-clear strBase;
+baseOpen = cell2mat(baseOpen)';
+baseClosed = cell2mat(baseClosed)';
+labels = strrep(strBaseClsd.labels,'.','');
+clear strBaseClsd;
 
 %% FILTRAGENS
 for i=1:64 
     % 0,5-30Hz
-    baseline(i,:) = filt0_30(baseline(i,:));
+    baseOpen(i,:) = filt0_30(baseOpen(i,:));
     baseClosed(i,:) = filt0_30(baseClosed(i,:));
     
     if ~identificacao
         % BANDAS
-        baseOpen_delta(i,:) = filtdelta(baseline(i,(1:9600)));
+        baseOpen_delta(i,:) = filtdelta(baseOpen(i,(1:9600)));
         baseClosed_delta(i,:) = filtdelta(baseClosed(i,(1:9600)));
 
-        baseOpen_theta(i,:) = filttheta(baseline(i,(1:9600)));
+        baseOpen_theta(i,:) = filttheta(baseOpen(i,(1:9600)));
         baseClosed_theta(i,:) = filttheta(baseClosed(i,(1:9600)));
 
-        baseOpen_alpha(i,:) = filtalpha(baseline(i,(1:9600)));
+        baseOpen_alpha(i,:) = filtalpha(baseOpen(i,(1:9600)));
         baseClosed_alpha(i,:) = filtalpha(baseClosed(i,(1:9600)));
 
-        baseOpen_beta(i,:) = filtbeta(baseline(i,(1:9600)));
+        baseOpen_beta(i,:) = filtbeta(baseOpen(i,(1:9600)));
         baseClosed_beta(i,:) = filtbeta(baseClosed(i,(1:9600)));
     end
 end
@@ -31,14 +32,14 @@ end
 % Fp2 - 24      F4 - 36     C4 - 13     O2 - 53
 
 %Left Parasigittal Open
-baseOpen_bip(6,:) = baseline(32,1:9600)-baseline(22,1:9600); %F3 - Fp1
-baseOpen_bip(5,:) = baseline(9,1:9600)-baseline(32,1:9600); %C3 - F3
-baseOpen_bip(4,:) = baseline(49,1:9600)-baseline(9,1:9600); %P3 - C3
+baseOpen_bip(6,:) = baseOpen(32,1:9600)-baseOpen(22,1:9600); %F3 - Fp1
+baseOpen_bip(5,:) = baseOpen(9,1:9600)-baseOpen(32,1:9600); %C3 - F3
+baseOpen_bip(4,:) = baseOpen(49,1:9600)-baseOpen(9,1:9600); %P3 - C3
 
 %Right Parasagittal Open
-baseOpen_bip(3,:) = baseline(36,1:9600)-baseline(24,1:9600); %F4 - Fp2
-baseOpen_bip(2,:) = baseline(13,1:9600)-baseline(36,1:9600); %C4 - F4
-baseOpen_bip(1,:) = baseline(53,1:9600)-baseline(13,1:9600); %P4 - C4
+baseOpen_bip(3,:) = baseOpen(36,1:9600)-baseOpen(24,1:9600); %F4 - Fp2
+baseOpen_bip(2,:) = baseOpen(13,1:9600)-baseOpen(36,1:9600); %C4 - F4
+baseOpen_bip(1,:) = baseOpen(53,1:9600)-baseOpen(13,1:9600); %P4 - C4
 
 if ~identificacao
     %Left Parasigittal Closed
@@ -52,4 +53,4 @@ if ~identificacao
     baseClosed_bip(1,:) = baseClosed(53,1:9600)-baseClosed(13,1:9600); %P4 - C4
 end
 
-save(['workspaces/ind' indNo '_state' stateNo]);
+save(['workspaces/ind' indNo]);

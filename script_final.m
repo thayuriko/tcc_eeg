@@ -6,7 +6,9 @@ indNos = {'001' '002' '003' '004' '005' '006' '007' '008' '009' '010' '011' '012
 % Declaração das variáveis
 startBlink = zeros(length(indNos));
 endBlink = zeros(length(indNos));
+eyeStateClosed = zeros(length(indNos),3); %[from, to, duration]
 result = zeros(length(indNos),5); %[indNo, numberBlinks, minPeak, maxPeak, threshold]
+identificacao = 1;
 
 for i=1:length(indNos)
     indNo = indNos{i};
@@ -14,8 +16,10 @@ for i=1:length(indNos)
     run identificacao_piscada.m
     
     result(indNoInt,1) = indNoInt;
-    result(indNoInt,2) = find(endBlink(indNoInt,:),1,'last');
-    fprintf('Indivíduo %s piscou %s vezes\n', num2str(indNoInt), num2str(result(indNoInt,2)));
+    if result(indNoInt,4) > 100
+        result(indNoInt,2) = find(endBlink(indNoInt,:),1,'last');
+        fprintf('Indivíduo %s piscou %s vezes\n', num2str(indNoInt), num2str(result(indNoInt,2)));
+    end
 end
 
 clear i j axes1 blink S F 
