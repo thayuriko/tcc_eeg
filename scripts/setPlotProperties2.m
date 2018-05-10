@@ -5,6 +5,13 @@ if plotType == 0 %64 eletrodos
     
     set(gca,'ytick',0:ySpacing:(yValue-1)*ySpacing,'yticklabel',ylabels,'FontSize',6);
     axis ([0 9600 (0-ySpacing) (64*ySpacing-100)]);
+elseif plotType == 3 %16
+    yValue = 16;
+    fontSize = 6;
+    
+    set(gca,'ytick',0:ySpacing:(yValue-1)*ySpacing,'yticklabel',ylabels(22:38),'FontSize',6);
+    axis ([0 9600 (0-ySpacing) (16*ySpacing-100)]);
+    
 elseif plotType == 1 %plot bipolar
     yValue = 6;
     fontSize = 12;
@@ -39,6 +46,8 @@ switch titleParam
         title(['Ind.' indNo ': Olhos ' eyeState ' - Banda Delta (0,5-4Hz)'],'FontSize',12);
     case 'theta'
         title(['Ind.' indNo ': Olhos ' eyeState ' - Banda Theta (4-8Hz)'],'FontSize',12);
+	case '1to6'
+        title(['Ind.' indNo ': Olhos ' eyeState ' - Filtro de 1 a 6Hz'],'FontSize',12);
     case 'complete'
         title(['Ind.' indNo ': Olhos ' eyeState ' - Sinal completo (0,5-30 Hz)'],'FontSize',12);
     case 'electrode'

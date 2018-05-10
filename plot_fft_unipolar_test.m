@@ -1,5 +1,21 @@
 close all; clear all; clc;
-load('workspaces/ind001');
+
+if exist(['workspaces/ind' indNo '_state01.mat'], 'file') == 2
+    load(['workspaces/ind' indNo '_state01.mat']);
+else
+    stateNo = '01';
+    run tratamento_thais.m;
+end
+
+baseopen_bip = baseline_bip;
+baseopen = baseline;
+
+if exist(['workspaces/ind' indNo '_state02.mat'], 'file') == 2
+    load(['workspaces/ind' indNo '_state02.mat']);
+else
+    stateNo = '02';
+    run tratamento_thais.m;
+end
 
 printFigure = 0;
 set(0, 'DefaultFigureWindowStyle', 'normal')
