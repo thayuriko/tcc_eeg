@@ -5,17 +5,19 @@ addpath('./scripts');
 BLINK_DETECTION = true; %(resultados)
 PRINT_FIGS = false; %(salva os plots)
 BLINK_PLOTS = false; %plot do resultado da identificação
+CHECK_EYE_STATE = true;
 
 indNos = {'001' '002' '003' '004' '005' '006' '007' '008' '009' '010' ...
-    '011' '012' '013' '014' '015' '016' '017' '018' '019' '020'};
+    '011' '012' '013' '014' '015' '016' '017' '018' '019' '020' '021' ...
+    '022' '023' '024' '025' '026' '027' '028' '029' '030'};
 %stateNo = '01'; %(open: 01; closed: 02)
 
 % Declaração das variáveis
 %[indNo, isBlinking?, numberBlinks, minPeak, maxPeak, threshold, isClosed?, closedFrequency]
-resultTable = zeros(length(indNos),8);
+blinkTable = zeros(length(indNos),8);
 
 for k=1:2
-    if k==1
+    if k == 1
         stateNo = '01';
     else
         stateNo = '02';
@@ -25,6 +27,7 @@ for k=1:2
         indNo = indNos{i};
         indNoInt = str2num(indNo);
         run blinkDetection.m
+        %run clearWorkspaces.m
 
         %{
         if (indNoInt == 1) && ~PRINT_FIGS
@@ -32,16 +35,14 @@ for k=1:2
         end
         %}
 
-        resultTable(indNoInt,1) = indNoInt;
-        if baselinePeak > 100
-            resultTable(indNoInt,3) = find(endBlink(indNoInt,:),1,'last');
-            fprintf('Indivíduo %s piscou %s vezes\n', num2str(indNoInt), num2str(resultTable(indNoInt,3)));
+        blinkTable(indNoInt,1) = indNoInt;
+        if baselinePeak > 125
+            blinkTable(indNoInt,3) = find(endBlink(indNoInt,:),1,'last');
+            fprintf('Indivíduo %s piscou %s vezes\n', num2str(indNoInt), num2str(blinkTable(indNoInt,3)));
         end
-        
-        %clear avgPLeft avgPRight baseline_filt baselinePeak blink closedFrequency endBlink F blinkInterval lastEndBlink P S T startBlink thresholdP;
     end
 end
 
 close all; 
 
-save 'tcc_result.mat' 'resultTable'
+save 'tcc_result1.mat' 'blinkTable'

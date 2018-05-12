@@ -1,27 +1,26 @@
-function closedFreq = closedDetection(baselineLeft, baselineRight, now, lastBlink)
+function closedFreq = closedDetection(baselineLeft, baselineRight, lastBlink, now)
+    %{
+    baselineLeft = baseline_bip(1,:);
+    baselineRight = baseline_bip(4,:);
+    %}
     [S,F,T,Pl] = spectrogram(baselineLeft,64,32,160,160,'yaxis');
     [S,F,T,Pr] = spectrogram(baselineRight,64,32,160,160,'yaxis');
     
-    figure; spectrogram(baselineLeft,64,32,160,160,'yaxis');
-    freqL = 0; freqR = 0; closedFreq = 0;
-    avgLeft = mean(Pl(1,lastBlink*3:now*3));
-    avgRight = mean(Pr(1,lastBlink*3:now*3));
+    freqL = 6; freqR = 6; closedFreq = 0;
+    avgLeft = mean(Pl(6,:));
+    avgRight = mean(Pr(6,:));
 
-    for i = 2:length(Pl(:,1))  
-        if mean(Pl(i,lastBlink*3:now*3)) > avgLeft
+    for i = 4:length(Pl(:,1))  
+        if mean(Pl(i,:)) > avgLeft
             avgLeft = mean(Pl(i,:));
             freqL = i;
         end
 
-        if mean(Pr(i,lastBlink*3:now*3)) > avgRight
+        if mean(Pr(i,:)) > avgRight
             avgRight = mean(Pr(i,:));
             freqR = i;
         end
     end
 
-    if (freqL >= 8)&&(freqL <= 13)
-        if (freqR >= 8)&&(freqR <= 13)
-            closedFreq = ceil((freqL + freqR)/2);
-        end
-    end
+    closedFreq = max([freqL freqR]);
 end
